@@ -12,7 +12,7 @@ knitr::opts_chunk$set(cache = TRUE, warning = FALSE, message = FALSE)
 ```  
 
 
-```{r packages }
+```{r packages}
 library(tidycensus)
 library(tidyverse)
 options(tigris_use_cache = TRUE)
@@ -25,6 +25,11 @@ library(leaflet)
 library(stringr)
 library(DT)
 
+# population variable
+mi_pop <- get_acs(geography = "county",
+                  variables = c(population = "B01003_001"),
+                  state = "MI",
+                  geometry = TRUE)
 
 census_api_key("2cb24b255d5b7f9ce4bc9f2ea6d0be84276786ff")
 ```  
@@ -36,13 +41,6 @@ census_api_key("2cb24b255d5b7f9ce4bc9f2ea6d0be84276786ff")
 #### The majority of the population live in the southern portion of the state. Here we see that Detroit, and its surrounding areas, are home to a large portion of the population. 
 
 ```{r population}
-
-# population variable
-mi_pop <- get_acs(geography = "county",
-                  variables = c(population = "B01003_001"),
-                  state = "MI",
-                  # and shapefile
-                  geometry = TRUE)
 
 # population percentiles
 pal <- colorQuantile(palette = "viridis", domain = mi_pop$estimate, n = 10 )
@@ -67,7 +65,7 @@ mi_pop %>%
 
 ### Income
 
-#### The median income level is pretty consistent across the state, but we do see high levels in the southeast region of the state, around Detroit. 
+#### The median income level is pretty consistent across the state. Around Detroit, however, there are high levels of median income, while the city itself is at or below the state level.  
 
 ```{r median income}
 
@@ -159,7 +157,7 @@ mi_unemployment_education %>%
        subtitle = "U.S. Census Bureau, ACS 2016")
 ```  
 
-##### _Data: US Census Bureau, ACS 2016_
+##### _Source: US Census Bureau, ACS 2016_
 
 
 
